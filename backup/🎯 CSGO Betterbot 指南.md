@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://TechLA4.github.io/csgo.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://TechLA4.github.io/csgo.github.io</link></image><lastBuildDate>Wed, 02 Jul 2025 10:00:57 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>🎯 CSGO Betterbot 指南</title><link>https://TechLA4.github.io/csgo.github.io/post/%F0%9F%8E%AF%20CSGO%20Betterbot%20-zhi-nan.html</link><description># 🎯 CSGO Betterbot 指南
+# 🎯 CSGO Betterbot 指南
 
 ---
 ## 🚀 1. Server 搭建教程
@@ -8,7 +7,7 @@
 - 带宽建议：**5M 可支持约 10 人竞技**
 ### 🐧 Linux 端搭建
 - **参考教程：**  
-  - https://www.bilibili.com/read/cv17211032/?from=search&amp;opus_fallback=1
+  - https://www.bilibili.com/read/cv17211032/?from=search&opus_fallback=1
   - https://www.bilibili.com/opus/417487734754630292/?from=readlist
 - **注意事项：**
   - Linux 非常适合运行 **满十竞技、僵尸、KZ、娱乐模式**
@@ -18,10 +17,10 @@
 Errors: 
 bot_inventory.smx (BOT Inventory): Error detected in plugin startup (see error logs) 
 csgo_weaponstickers.smx ([CS:GO] Weapon Stickers): Native not found: eItems_GetWeaponNumByDefIndex 
-eitems.smx (eItems): Native 'HTTPRequest.HTTPRequest' was not found 
-bot_stuff.smx (BOT Stuff): Native 'eItems_GetWeaponSlotByWeapon' was not found 
-botmimic.smx (Bot Mimic): Native 'eItems_GetWeaponSlotByClassName' was not found 
-botmimic_menu.smx (Bot Mimic Menu): Could not find required plugin 'botmimic'
+eitems.smx (eItems): Native "HTTPRequest.HTTPRequest" was not found 
+bot_stuff.smx (BOT Stuff): Native "eItems_GetWeaponSlotByWeapon" was not found 
+botmimic.smx (Bot Mimic): Native "eItems_GetWeaponSlotByClassName" was not found 
+botmimic_menu.smx (Bot Mimic Menu): Could not find required plugin "botmimic"
 ```
 
 
@@ -82,7 +81,7 @@ srcds_run.exe -game csgo -tickrate 128 -maxplayers_override 10 +ip 0.0.0.0 -user
 
 参数说明：
 - `tickrate`: 每秒更新次数（CSGO 默认 64）
-- `game_type` &amp; `game_mode`: 游戏模式  
+- `game_type` & `game_mode`: 游戏模式  
   - [游戏模式参考文档](https://developer.valvesoftware.com/wiki/CS:GO_Game_Modes)  
   - +game_type 0 +game_mode 0 → 休闲模式  
   - +game_type 0 +game_mode 1 → 竞技模式
@@ -133,4 +132,42 @@ srcds_run.exe -game csgo -tickrate 128 -maxplayers_override 10 +ip 0.0.0.0 -user
 主机进入：**机器人练习赛**  
 ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702172313.png)
 
-进入后按 `~` 打开控制台，输入控制命令。</description><guid isPermaLink="true">https://TechLA4.github.io/csgo.github.io/post/%F0%9F%8E%AF%20CSGO%20Betterbot%20-zhi-nan.html</guid><pubDate>Wed, 02 Jul 2025 09:05:25 +0000</pubDate></item></channel></rss>
+进入后按 `~` 打开控制台，输入控制命令。
+
+常用命令如下（可参考根目录的 `2 必须学会的指令.txt`）：
+
+```bash
+# 添加队伍
+team astralis ct
+team g2 t
+
+# 控制机器人
+bot_stop 1    # 机器人静止
+bot_stop 0    # 机器人恢复移动
+
+# 更改阵营名
+mp_teamname_1 XXX
+mp_teamname_2 XXX
+
+# 设置游戏参数
+mp_freezetime X             # 开局禁止时间 X 秒
+mp_halftime_duration X      # 中场换边时间 X 秒
+mp_restartgame 1            # 一秒后重置对局
+
+# 聊天框命令（英文输入法下的 !）
+!dao          # 更换匕首
+!pf           # 更改皮肤
+!st           # 更改手套
+!music        # 更改音乐盒
+!s / !tz      # 更改贴纸
+!s xxx        # 搜索指定贴纸
+```
+
+#### 👥 局域网玩家连接主机
+进入游戏 → 控制台输入：  
+```bash
+connect 192.168.xxx.xxx
+```
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702174035.png)
+
+即可进入游戏。

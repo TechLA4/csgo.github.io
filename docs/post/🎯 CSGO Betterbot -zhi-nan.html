@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# 🎯 CSGO Betterbot 指南
+
+---
+## 🚀 1. Server 搭建教程
+### ✅ 服务器注意事项
+- 至少配置：**2核4G**, 硬盘空间 **50G 起**
+- 带宽建议：**5M 可支持约 10 人竞技**
+### 🐧 Linux 端搭建
+- **参考教程：**  
+  - https://www.bilibili.com/read/cv17211032/?from=search&opus_fallback=1
+  - https://www.bilibili.com/opus/417487734754630292/?from=readlist
+- **注意事项：**
+  - Linux 非常适合运行 **满十竞技、僵尸、KZ、娱乐模式**
+  - 但是针对此模组，可能存在编译Betterbot插件中**botmimic拓展依赖出错**等一系列框架问题，如下所示：
+	-  `个人不建议使用linux搭建此Betterbot服务器
+```
+Errors: 
+bot_inventory.smx (BOT Inventory): Error detected in plugin startup (see error logs) 
+csgo_weaponstickers.smx ([CS:GO] Weapon Stickers): Native not found: eItems_GetWeaponNumByDefIndex 
+eitems.smx (eItems): Native 'HTTPRequest.HTTPRequest' was not found 
+bot_stuff.smx (BOT Stuff): Native 'eItems_GetWeaponSlotByWeapon' was not found 
+botmimic.smx (Bot Mimic): Native 'eItems_GetWeaponSlotByClassName' was not found 
+botmimic_menu.smx (Bot Mimic Menu): Could not find required plugin 'botmimic'
+```
+
+
+### Windows 平台搭建
+……
+
+
+---
+
+## 🎮 2. Client 连接教程
+
+### 📦 前提条件
+- 空间需求：约 **90G**
+
+### 🔻 2.1 下载游戏文件
+1. 在 Steam 中下载 **CS2**
+2. 右键 CS2 → 属性 → **测试版** → 选择 **csgo_legacy_version**
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702164850.png)
+3. 下载完成后，右键 CS2 → **管理 → 浏览本地文件**
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165335.png)
+
+- **游戏目录说明：**
+  - CS2 根目录：`Counter-Strike Global Offense`
+  - CSGO 根目录：**小写的 `csgo`**
+  ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165258.png)
+
+### 🔧 2.2 安装 MOD
+
+#### 📁 MOD 组成
+- 插件框架：Metamod + Sourcemod  
+- 机器人插件：Betterbot
+
+#### 🔗 下载地址
+- [📥 Betterbot 插件包 - 123 网盘（高速下载）](https://www.123684.com/s/8C4RTd-6mE63)
+
+#### 📂 插件目录结构如下：
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165934.png)
+
+#### 📌 安装步骤
+- 解压后将插件目录 **全部复制并替换** 到 `csgo` 根目录下  
+  示例路径：  
+  `Steam\steamapps\common\Counter-Strike Global Offensive\csgo\`
+- 替换后的目录示意：
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702170137.png)
+
+
+---
+
+### ▶️ 2.3 启动游戏
+
+#### 🖥️ 2.3.1 服务器模式
+
+##### 📌 创建服务器
+编辑 `start.bat` 文件，写入以下启动项：
+```bash
+srcds_run.exe -game csgo -tickrate 128 -maxplayers_override 10 +ip 0.0.0.0 -usercon map de_dust2 +game_type 0 +game_mode 0
+```
+
+参数说明：
+- `tickrate`: 每秒更新次数（CSGO 默认 64）
+- `game_type` & `game_mode`: 游戏模式  
+  - [游戏模式参考文档](https://developer.valvesoftware.com/wiki/CS:GO_Game_Modes)  
+  - +game_type 0 +game_mode 0 → 休闲模式  
+  - +game_type 0 +game_mode 1 → 竞技模式
+- `maxplayers_override`: 最大玩家数
+- `port`: 游戏端口
+
+双击 `start.bat` 即可运行服务器：  
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702173635.png)
+
+##### 🎯 玩家连接服务器
+
+1. 启动时选择 **csgo_legacy_version**
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702171933.png)
+2. 启动后进入设置 → **启用开发者控制台**
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702172158.png)
+3. 游戏主界面按 `~` 打开控制台 → 输入：  
+   ```bash
+   connect xxx.xxx.xxx.xxx
+   ```
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702174035.png)
+
+---
+
+### 🌐 2.4 局域网模式
+
+#### 🔧 插件启动设置
+查看插件目录内：  
+`【1】每次更新必看！更新日志！.txt` 文件
+
+示例命令如下：
+```bash
+开启插件：启动项加入 -insecure -tickrate 128 -worldwide -maxplayers_override 10
+关闭插件：启动项删除 -insecure -tickrate 128 -worldwide -maxplayers_override 10
+```
+
+#### 🛠 启动参数设置
+- CS2 → 属性 → 通用 → 启动选项：
+```bash
+-insecure -tickrate 128 -worldwide -maxplayers_override 10
+```
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702171703.png)
+
+- 启动时选择 **csgo_legacy_version**
+- 启用开发者控制台
+
+
+#### 🖥️ 局域网主机建立服务器
+主机进入：**机器人练习赛**  
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702172313.png)
+
+进入后按 `~` 打开控制台，输入控制命令。">
+<meta property="og:title" content="🎯 CSGO Betterbot 指南">
+<meta property="og:description" content="# 🎯 CSGO Betterbot 指南
+
+---
+## 🚀 1. Server 搭建教程
+### ✅ 服务器注意事项
+- 至少配置：**2核4G**, 硬盘空间 **50G 起**
+- 带宽建议：**5M 可支持约 10 人竞技**
+### 🐧 Linux 端搭建
+- **参考教程：**  
+  - https://www.bilibili.com/read/cv17211032/?from=search&opus_fallback=1
+  - https://www.bilibili.com/opus/417487734754630292/?from=readlist
+- **注意事项：**
+  - Linux 非常适合运行 **满十竞技、僵尸、KZ、娱乐模式**
+  - 但是针对此模组，可能存在编译Betterbot插件中**botmimic拓展依赖出错**等一系列框架问题，如下所示：
+	-  `个人不建议使用linux搭建此Betterbot服务器
+```
+Errors: 
+bot_inventory.smx (BOT Inventory): Error detected in plugin startup (see error logs) 
+csgo_weaponstickers.smx ([CS:GO] Weapon Stickers): Native not found: eItems_GetWeaponNumByDefIndex 
+eitems.smx (eItems): Native 'HTTPRequest.HTTPRequest' was not found 
+bot_stuff.smx (BOT Stuff): Native 'eItems_GetWeaponSlotByWeapon' was not found 
+botmimic.smx (Bot Mimic): Native 'eItems_GetWeaponSlotByClassName' was not found 
+botmimic_menu.smx (Bot Mimic Menu): Could not find required plugin 'botmimic'
+```
+
+
+### Windows 平台搭建
+……
+
+
+---
+
+## 🎮 2. Client 连接教程
+
+### 📦 前提条件
+- 空间需求：约 **90G**
+
+### 🔻 2.1 下载游戏文件
+1. 在 Steam 中下载 **CS2**
+2. 右键 CS2 → 属性 → **测试版** → 选择 **csgo_legacy_version**
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702164850.png)
+3. 下载完成后，右键 CS2 → **管理 → 浏览本地文件**
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165335.png)
+
+- **游戏目录说明：**
+  - CS2 根目录：`Counter-Strike Global Offense`
+  - CSGO 根目录：**小写的 `csgo`**
+  ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165258.png)
+
+### 🔧 2.2 安装 MOD
+
+#### 📁 MOD 组成
+- 插件框架：Metamod + Sourcemod  
+- 机器人插件：Betterbot
+
+#### 🔗 下载地址
+- [📥 Betterbot 插件包 - 123 网盘（高速下载）](https://www.123684.com/s/8C4RTd-6mE63)
+
+#### 📂 插件目录结构如下：
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165934.png)
+
+#### 📌 安装步骤
+- 解压后将插件目录 **全部复制并替换** 到 `csgo` 根目录下  
+  示例路径：  
+  `Steam\steamapps\common\Counter-Strike Global Offensive\csgo\`
+- 替换后的目录示意：
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702170137.png)
+
+
+---
+
+### ▶️ 2.3 启动游戏
+
+#### 🖥️ 2.3.1 服务器模式
+
+##### 📌 创建服务器
+编辑 `start.bat` 文件，写入以下启动项：
+```bash
+srcds_run.exe -game csgo -tickrate 128 -maxplayers_override 10 +ip 0.0.0.0 -usercon map de_dust2 +game_type 0 +game_mode 0
+```
+
+参数说明：
+- `tickrate`: 每秒更新次数（CSGO 默认 64）
+- `game_type` & `game_mode`: 游戏模式  
+  - [游戏模式参考文档](https://developer.valvesoftware.com/wiki/CS:GO_Game_Modes)  
+  - +game_type 0 +game_mode 0 → 休闲模式  
+  - +game_type 0 +game_mode 1 → 竞技模式
+- `maxplayers_override`: 最大玩家数
+- `port`: 游戏端口
+
+双击 `start.bat` 即可运行服务器：  
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702173635.png)
+
+##### 🎯 玩家连接服务器
+
+1. 启动时选择 **csgo_legacy_version**
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702171933.png)
+2. 启动后进入设置 → **启用开发者控制台**
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702172158.png)
+3. 游戏主界面按 `~` 打开控制台 → 输入：  
+   ```bash
+   connect xxx.xxx.xxx.xxx
+   ```
+   ![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702174035.png)
+
+---
+
+### 🌐 2.4 局域网模式
+
+#### 🔧 插件启动设置
+查看插件目录内：  
+`【1】每次更新必看！更新日志！.txt` 文件
+
+示例命令如下：
+```bash
+开启插件：启动项加入 -insecure -tickrate 128 -worldwide -maxplayers_override 10
+关闭插件：启动项删除 -insecure -tickrate 128 -worldwide -maxplayers_override 10
+```
+
+#### 🛠 启动参数设置
+- CS2 → 属性 → 通用 → 启动选项：
+```bash
+-insecure -tickrate 128 -worldwide -maxplayers_override 10
+```
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702171703.png)
+
+- 启动时选择 **csgo_legacy_version**
+- 启用开发者控制台
+
+
+#### 🖥️ 局域网主机建立服务器
+主机进入：**机器人练习赛**  
+![](https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702172313.png)
+
+进入后按 `~` 打开控制台，输入控制命令。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://TechLA4.github.io/csgo.github.io/post/%F0%9F%8E%AF%20CSGO%20Betterbot%20-zhi-nan.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>🎯 CSGO Betterbot 指南</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">🎯 CSGO Betterbot 指南</h1>
+<div class="title-right">
+    <a href="https://TechLA4.github.io/csgo.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/TechLA4/csgo.github.io/issues/1" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>🎯 CSGO Betterbot 指南</h1>
+<hr>
+<h2>🚀 1. Server 搭建教程</h2>
+<h3>✅ 服务器注意事项</h3>
+<ul>
+<li>至少配置：<strong>2核4G</strong>, 硬盘空间 <strong>50G 起</strong></li>
+<li>带宽建议：<strong>5M 可支持约 10 人竞技</strong></li>
+</ul>
+<h3>🐧 Linux 端搭建</h3>
+<ul>
+<li><strong>参考教程：</strong>
+<ul>
+<li><a href="https://www.bilibili.com/read/cv17211032/?from=search&amp;opus_fallback=1" rel="nofollow">https://www.bilibili.com/read/cv17211032/?from=search&amp;opus_fallback=1</a></li>
+<li><a href="https://www.bilibili.com/opus/417487734754630292/?from=readlist" rel="nofollow">https://www.bilibili.com/opus/417487734754630292/?from=readlist</a></li>
+</ul>
+</li>
+<li><strong>注意事项：</strong>
+<ul>
+<li>Linux 非常适合运行 <strong>满十竞技、僵尸、KZ、娱乐模式</strong></li>
+<li>但是针对此模组，可能存在编译Betterbot插件中<strong>botmimic拓展依赖出错</strong>等一系列框架问题，如下所示：
+<ul>
+<li>`个人不建议使用linux搭建此Betterbot服务器</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre class="notranslate"><code class="notranslate">Errors: 
+bot_inventory.smx (BOT Inventory): Error detected in plugin startup (see error logs) 
+csgo_weaponstickers.smx ([CS:GO] Weapon Stickers): Native not found: eItems_GetWeaponNumByDefIndex 
+eitems.smx (eItems): Native "HTTPRequest.HTTPRequest" was not found 
+bot_stuff.smx (BOT Stuff): Native "eItems_GetWeaponSlotByWeapon" was not found 
+botmimic.smx (Bot Mimic): Native "eItems_GetWeaponSlotByClassName" was not found 
+botmimic_menu.smx (Bot Mimic Menu): Could not find required plugin "botmimic"
+</code></pre>
+<h3>Windows 平台搭建</h3>
+<p>……</p>
+<hr>
+<h2>🎮 2. Client 连接教程</h2>
+<h3>📦 前提条件</h3>
+<ul>
+<li>空间需求：约 <strong>90G</strong></li>
+</ul>
+<h3>🔻 2.1 下载游戏文件</h3>
+<ol>
+<li>在 Steam 中下载 <strong>CS2</strong></li>
+<li>右键 CS2 → 属性 → <strong>测试版</strong> → 选择 <strong>csgo_legacy_version</strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/eb69dd88ee93ac3d4fc072bb6b3be1f203189d5d1310d84768f774035f822118/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323136343835302e706e67"><img src="https://camo.githubusercontent.com/eb69dd88ee93ac3d4fc072bb6b3be1f203189d5d1310d84768f774035f822118/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323136343835302e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702164850.png" style="max-width: 100%;"></a></li>
+<li>下载完成后，右键 CS2 → <strong>管理 → 浏览本地文件</strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/17d3b57ab7f8f0becbbbdf2855dd941532b7f2dd95285005c8f218fe85268333/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323136353333352e706e67"><img src="https://camo.githubusercontent.com/17d3b57ab7f8f0becbbbdf2855dd941532b7f2dd95285005c8f218fe85268333/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323136353333352e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165335.png" style="max-width: 100%;"></a></li>
+</ol>
+<ul>
+<li><strong>游戏目录说明：</strong>
+<ul>
+<li>CS2 根目录：<code class="notranslate">Counter-Strike Global Offense</code></li>
+<li>CSGO 根目录：<strong>小写的 <code class="notranslate">csgo</code></strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/2453f53c939a34b0892e21c7a31f2b8a62d50e4972276f0884a24bab4bea5f03/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323136353235382e706e67"><img src="https://camo.githubusercontent.com/2453f53c939a34b0892e21c7a31f2b8a62d50e4972276f0884a24bab4bea5f03/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323136353235382e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165258.png" style="max-width: 100%;"></a></li>
+</ul>
+</li>
+</ul>
+<h3>🔧 2.2 安装 MOD</h3>
+<h4>📁 MOD 组成</h4>
+<ul>
+<li>插件框架：Metamod + Sourcemod</li>
+<li>机器人插件：Betterbot</li>
+</ul>
+<h4>🔗 下载地址</h4>
+<ul>
+<li><a href="https://www.123684.com/s/8C4RTd-6mE63" rel="nofollow">📥 Betterbot 插件包 - 123 网盘（高速下载）</a></li>
+</ul>
+<h4>📂 插件目录结构如下：</h4>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/ab1defb1c0922506891eed755352b863486491079154448def3e7b65656960c9/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323136353933342e706e67"><img src="https://camo.githubusercontent.com/ab1defb1c0922506891eed755352b863486491079154448def3e7b65656960c9/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323136353933342e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702165934.png" style="max-width: 100%;"></a></p>
+<h4>📌 安装步骤</h4>
+<ul>
+<li>解压后将插件目录 <strong>全部复制并替换</strong> 到 <code class="notranslate">csgo</code> 根目录下<br>
+示例路径：<br>
+<code class="notranslate">Steam\steamapps\common\Counter-Strike Global Offensive\csgo\</code></li>
+<li>替换后的目录示意：<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/53200757e9faba877be9ab385ccfb2fa4772c57b502b92e6a7ea3ee654b6fce1/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137303133372e706e67"><img src="https://camo.githubusercontent.com/53200757e9faba877be9ab385ccfb2fa4772c57b502b92e6a7ea3ee654b6fce1/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137303133372e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702170137.png" style="max-width: 100%;"></a></li>
+</ul>
+<hr>
+<h3><g-emoji class="g-emoji" alias="arrow_forward">▶️</g-emoji> 2.3 启动游戏</h3>
+<h4>🖥️ 2.3.1 服务器模式</h4>
+<h5>📌 创建服务器</h5>
+<p>编辑 <code class="notranslate">start.bat</code> 文件，写入以下启动项：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">srcds_run.exe -game csgo -tickrate 128 -maxplayers_override 10 +ip 0.0.0.0 -usercon map de_dust2 +game_type 0 +game_mode 0</pre></div>
+<p>参数说明：</p>
+<ul>
+<li><code class="notranslate">tickrate</code>: 每秒更新次数（CSGO 默认 64）</li>
+<li><code class="notranslate">game_type</code> &amp; <code class="notranslate">game_mode</code>: 游戏模式
+<ul>
+<li><a href="https://developer.valvesoftware.com/wiki/CS:GO_Game_Modes" rel="nofollow">游戏模式参考文档</a></li>
+<li>+game_type 0 +game_mode 0 → 休闲模式</li>
+<li>+game_type 0 +game_mode 1 → 竞技模式</li>
+</ul>
+</li>
+<li><code class="notranslate">maxplayers_override</code>: 最大玩家数</li>
+<li><code class="notranslate">port</code>: 游戏端口</li>
+</ul>
+<p>双击 <code class="notranslate">start.bat</code> 即可运行服务器：<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/f92181d4b96273e341acc2ca1c3810035631249586634d9df96a788e9cf04aa2/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137333633352e706e67"><img src="https://camo.githubusercontent.com/f92181d4b96273e341acc2ca1c3810035631249586634d9df96a788e9cf04aa2/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137333633352e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702173635.png" style="max-width: 100%;"></a></p>
+<h5>🎯 玩家连接服务器</h5>
+<ol>
+<li>启动时选择 <strong>csgo_legacy_version</strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/c020ba77625c8e5aa1f0db7700f558fa06862942957f5364399950f6d388cdd5/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137313933332e706e67"><img src="https://camo.githubusercontent.com/c020ba77625c8e5aa1f0db7700f558fa06862942957f5364399950f6d388cdd5/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137313933332e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702171933.png" style="max-width: 100%;"></a></li>
+<li>启动后进入设置 → <strong>启用开发者控制台</strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/03d62707d62953016d406b8aa266e154417a9a9f0c83f15f0679dc3ceab139fa/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137323135382e706e67"><img src="https://camo.githubusercontent.com/03d62707d62953016d406b8aa266e154417a9a9f0c83f15f0679dc3ceab139fa/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137323135382e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702172158.png" style="max-width: 100%;"></a></li>
+<li>游戏主界面按 <code class="notranslate">~</code> 打开控制台 → 输入：
+<div class="highlight highlight-source-shell"><pre class="notranslate">connect xxx.xxx.xxx.xxx</pre></div>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e61cb8780639bebc2c0eae9094213fa99bc9c912cc54a5b5559815343412a67b/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137343033352e706e67"><img src="https://camo.githubusercontent.com/e61cb8780639bebc2c0eae9094213fa99bc9c912cc54a5b5559815343412a67b/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137343033352e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702174035.png" style="max-width: 100%;"></a></li>
+</ol>
+<hr>
+<h3>🌐 2.4 局域网模式</h3>
+<h4>🔧 插件启动设置</h4>
+<p>查看插件目录内：<br>
+<code class="notranslate">【1】每次更新必看！更新日志！.txt</code> 文件</p>
+<p>示例命令如下：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">开启插件：启动项加入 -insecure -tickrate 128 -worldwide -maxplayers_override 10
+关闭插件：启动项删除 -insecure -tickrate 128 -worldwide -maxplayers_override 10</pre></div>
+<h4>🛠 启动参数设置</h4>
+<ul>
+<li>CS2 → 属性 → 通用 → 启动选项：</li>
+</ul>
+<div class="highlight highlight-source-shell"><pre class="notranslate">-insecure -tickrate 128 -worldwide -maxplayers_override 10</pre></div>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/eecf1ca1352adec9f76015a8896e0e7c6b074cbacaa2aec43b6b824b73485faa/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137313730332e706e67"><img src="https://camo.githubusercontent.com/eecf1ca1352adec9f76015a8896e0e7c6b074cbacaa2aec43b6b824b73485faa/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137313730332e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702171703.png" style="max-width: 100%;"></a></p>
+<ul>
+<li>启动时选择 <strong>csgo_legacy_version</strong></li>
+<li>启用开发者控制台</li>
+</ul>
+<h4>🖥️ 局域网主机建立服务器</h4>
+<p>主机进入：<strong>机器人练习赛</strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/d50aa82deddb4455d4ac3119a6e50a83da7bf2ffb1f6c44ce91dd4a488b387c0/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137323331332e706e67"><img src="https://camo.githubusercontent.com/d50aa82deddb4455d4ac3119a6e50a83da7bf2ffb1f6c44ce91dd4a488b387c0/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137323331332e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702172313.png" style="max-width: 100%;"></a></p>
+<p>进入后按 <code class="notranslate">~</code> 打开控制台，输入控制命令。</p>
+<p>常用命令如下（可参考根目录的 <code class="notranslate">2 必须学会的指令.txt</code>）：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 添加队伍</span>
+team astralis ct
+team g2 t
+
+<span class="pl-c"><span class="pl-c">#</span> 控制机器人</span>
+bot_stop 1    <span class="pl-c"><span class="pl-c">#</span> 机器人静止</span>
+bot_stop 0    <span class="pl-c"><span class="pl-c">#</span> 机器人恢复移动</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 更改阵营名</span>
+mp_teamname_1 XXX
+mp_teamname_2 XXX
+
+<span class="pl-c"><span class="pl-c">#</span> 设置游戏参数</span>
+mp_freezetime X             <span class="pl-c"><span class="pl-c">#</span> 开局禁止时间 X 秒</span>
+mp_halftime_duration X      <span class="pl-c"><span class="pl-c">#</span> 中场换边时间 X 秒</span>
+mp_restartgame 1            <span class="pl-c"><span class="pl-c">#</span> 一秒后重置对局</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 聊天框命令（英文输入法下的 !）</span>
+<span class="pl-k">!</span>dao          <span class="pl-c"><span class="pl-c">#</span> 更换匕首</span>
+<span class="pl-k">!</span>pf           <span class="pl-c"><span class="pl-c">#</span> 更改皮肤</span>
+<span class="pl-k">!</span>st           <span class="pl-c"><span class="pl-c">#</span> 更改手套</span>
+<span class="pl-k">!</span>music        <span class="pl-c"><span class="pl-c">#</span> 更改音乐盒</span>
+<span class="pl-k">!</span>s / <span class="pl-k">!</span>tz      <span class="pl-c"><span class="pl-c">#</span> 更改贴纸</span>
+<span class="pl-k">!</span>s xxx        <span class="pl-c"><span class="pl-c">#</span> 搜索指定贴纸</span></pre></div>
+<h4>👥 局域网玩家连接主机</h4>
+<p>进入游戏 → 控制台输入：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">connect 192.168.xxx.xxx</pre></div>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e61cb8780639bebc2c0eae9094213fa99bc9c912cc54a5b5559815343412a67b/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137343033352e706e67"><img src="https://camo.githubusercontent.com/e61cb8780639bebc2c0eae9094213fa99bc9c912cc54a5b5559815343412a67b/68747470733a2f2f746563686c612d696d672e6f73732d636e2d68616e677a686f752e616c6979756e63732e636f6d2f434f44452f5745422f32303235303730323137343033352e706e67" alt="" data-canonical-src="https://techla-img.oss-cn-hangzhou.aliyuncs.com/CODE/WEB/20250702174035.png" style="max-width: 100%;"></a></p>
+<p>即可进入游戏。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://TechLA4.github.io/csgo.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","TechLA4/csgo.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>
