@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://TechLA4.github.io/csgo.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://TechLA4.github.io/csgo.github.io</link></image><lastBuildDate>Wed, 02 Jul 2025 09:06:01 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>test</title><link>https://TechLA4.github.io/csgo.github.io/post/test.html</link><description># CSGO Betterbot 指南
+# CSGO Betterbot 指南
 # Server搭建
 
 
@@ -46,4 +45,3 @@ https://www.123684.com/s/8C4RTd-imE63
 ## 启动游戏
 ### 局域网
 如果想要局域网联机，
-。</description><guid isPermaLink="true">https://TechLA4.github.io/csgo.github.io/post/test.html</guid><pubDate>Wed, 02 Jul 2025 09:05:25 +0000</pubDate></item></channel></rss>
